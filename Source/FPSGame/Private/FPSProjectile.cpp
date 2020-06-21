@@ -4,7 +4,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 
-AFPSProjectile::AFPSProjectile() 
+AFPSProjectile::AFPSProjectile()
 {
 	// Use a sphere as a simple collision representation
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
@@ -31,14 +31,14 @@ AFPSProjectile::AFPSProjectile()
 	InitialLifeSpan = 3.0f;
 }
 
-
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-
-		Destroy();
 	}
+	MakeNoise(1.0f, Instigator);
+
+	Destroy();
 }
