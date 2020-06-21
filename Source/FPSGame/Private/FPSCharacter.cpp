@@ -6,11 +6,11 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "Components/PawnNoiseEmitterComponent.h"
 
 AFPSCharacter::AFPSCharacter()
 {
-	// Create a CameraComponent	
+	// Create a CameraComponent
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	CameraComponent->SetupAttachment(GetCapsuleComponent());
 	CameraComponent->SetRelativeLocation(FVector(0, 0, BaseEyeHeight)); // Position the camera
@@ -27,8 +27,9 @@ AFPSCharacter::AFPSCharacter()
 	GunMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
 	GunMeshComponent->CastShadow = false;
 	GunMeshComponent->SetupAttachment(Mesh1PComponent, "GripPoint");
-}
 
+	NoiseEmitterComponent = CreateDefaultSubobject<UPawnNoiseEmitterComponent>(TEXT("Noise Emitter"));
+}
 
 void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -44,7 +45,6 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 }
-
 
 void AFPSCharacter::Fire()
 {
@@ -80,7 +80,6 @@ void AFPSCharacter::Fire()
 	}
 }
 
-
 void AFPSCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
@@ -89,7 +88,6 @@ void AFPSCharacter::MoveForward(float Value)
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
-
 
 void AFPSCharacter::MoveRight(float Value)
 {

@@ -24,6 +24,8 @@ protected:
 		UPawnSensingComponent* PawnSensingComp;
 	UFUNCTION()
 		void OnPawnSeen(APawn* SeenPawn);
+	UFUNCTION()
+		void OnNoiseHeard(APawn* NoiseInstigator, const FVector& Location, float Volume);
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
